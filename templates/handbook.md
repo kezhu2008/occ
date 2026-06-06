@@ -23,10 +23,10 @@ The CEO is the single layer to the founder. It writes no code and no task specs.
 |---------|--------------|--------|
 | `report-architecture` | Summarize current-system shape, seams, invariants from the persisted architecture/data-model. | Read-only briefing; no build. |
 | `report-progress` | Roll up milestone/task states + open escalations from the ledger. | Status report; no build. |
-| `review-and-plan` | Draft/refresh `roadmap.md` + milestone specs, run the **board-reviewer** internal-coherence + spec-quality gate, then take **founder sign-off**. Run the **access pre-flight** (below). | A clean, reviewed plan + ONE batched founder-needs list. Gate BEFORE any autonomous run. |
-| `run-the-company` | Execute the signed-off plan wave-by-wave: delegate to managers, drive the review/QA gates, escalate only direction-changing calls. | Built + reviewed + QA'd milestones; final report. |
+| `review-and-plan` | Draft/refresh `roadmap.md` + milestone specs, **pre-decide every foreseeable direction-fork (or set a default + tolerance)**, run the **board-reviewer** internal-coherence + spec-quality gate, then take **founder sign-off**. Run the **access pre-flight** (below). | A clean, reviewed plan + ONE batched founder-needs list + the run's standing direction-authority. Gate BEFORE any autonomous run. |
+| `run-the-company` | Execute the signed-off plan wave-by-wave, **long-running, never blocking on the founder**: delegate to managers, drive the review/QA gates; decide direction-forks against the signed default (log `DIRECTION`), park access-blocked threads, emit a drift digest if the charter/roadmap bends — and keep running. | Built + reviewed + QA'd milestones; DIRECTION log + needs-list + any drift digests; final report. |
 
-`review-and-plan` is the answer to "who reviews the CEO": board-reviewer checks the plan internally so the founder receives something already consistent (fewer founder cycles), then the founder gives final sign-off. Never start `run-the-company` on an unreviewed/unsigned plan.
+`review-and-plan` is the answer to "who reviews the CEO": board-reviewer checks the plan internally so the founder receives something already consistent (fewer founder cycles), then the founder gives final sign-off. It is also where the founder's direction weight is paid — the run inherits standing authority and never stops to ask. Never start `run-the-company` on an unreviewed/unsigned plan.
 
 ---
 
@@ -78,13 +78,13 @@ Rules: reference IDs not prose history · `blocking:true` halts dependent work u
 
 ## Automation — outcome-harnessed decisions + access pre-flight
 1. **Harness every reversible decision to a measurable outcome.** Don't debate "Postgres or SQLite?", "OpenAPI or gRPC?" — pick one, bind it to the acceptance criterion it must satisfy, let the result judge it. No harness → write one (acceptance test / benchmark / reconciliation) before deciding. The spec IS the harness; freedom of method, strictness of outcome. Log decision + the outcome that proved it in `decisions.md`.
-2. **Escalate only direction-changing calls.** Sharper than "is it irreversible?": *does this significantly change what the product is?* (pricing, business model, public/brand naming, a platform bet that locks future waves). Everything else: decide, harness, log, proceed. Stage escalated decisions **ready-to-flip** (behind a flag/alias) so the milestone isn't blocked; leave a one-line decision-ready note.
-3. **Access pre-flight (front-load human-only needs).** BEFORE any long run, scan the upcoming wave for every human-only dependency — credentials, API tokens, paid signups, cloud account/region/budget, deploy/App-Store permissions, device signing. Batch them into ONE founder list up front, then run uninterrupted. Prefer **executable gates** to prose: each prerequisite has a `verify:` command that proves it works (`aws sts get-caller-identity`, a real API probe) — never assume a key works. A human-only need discovered mid-run is a **front-loading miss** → note it for HR.
+2. **Front-load direction in planning; the run never blocks on the founder.** A direction-changing call (*does this significantly change what the product is?* — pricing, business model, public/brand naming, a platform bet that locks future waves) is settled **up front in `review-and-plan`**: pre-decided, or given a default + tolerance. In the run: reversible/internal forks → decide, harness, log; a direction-fork → decide against the signed default (when two options both fit, prefer the cheapest to reverse), log it `DIRECTION`-tagged, keep running; an access gap → park only that thread, keep running. **Material-drift digest (a notification, not a gate):** after a `DIRECTION` call, if the product no longer satisfies every charter non-negotiable + roadmap success criterion as signed, emit a drift digest and *keep running* — the founder course-corrects at the next `review-and-plan`. The autonomy trap is resolved by *when*, not *whether*: founder-level calls are made *with the founder in planning*, never auto-taken mid-run, and never a mid-run stop.
+3. **Access pre-flight (front-load human-only needs).** BEFORE any long run, scan the upcoming wave for every human-only dependency — credentials, API tokens, paid signups, cloud account/region/budget, deploy/App-Store permissions, device signing. Batch them into ONE founder list up front, then run uninterrupted. Prefer **executable gates** to prose: each prerequisite has a `verify:` command that proves it works (`aws sts get-caller-identity`, a real API probe) — never assume a key works. A human-only need discovered mid-run is a **front-loading miss** → it parks only the blocked thread (the run continues on everything else) and is noted for HR.
 
 ---
 
 ## Decision escalation gate (quick reference)
-Decide autonomously + log when **reversible AND internal AND low blast-radius**. Escalate when **irreversible / externally-visible (public API, naming, brand) / strategic (pricing, business model, scope) / spends money / locks future waves**. The autonomy trap: "reduce intervention as much as possible" ≠ "decide everything" — auto-deciding a public rename or launch price is making a founder-level call, the opposite of trustworthy.
+Decide-and-log when **reversible AND internal AND low blast-radius**. A **direction-changing** call (**irreversible / externally-visible (public API, naming, brand) / strategic (pricing, business model, scope) / spends money / locks future waves**) is **front-loaded into the signed plan**, not stopped on mid-run. If one surfaces unforeseen during the run: decide toward the cheapest-to-reverse default, log `DIRECTION`, keep running; if it bends the charter/roadmap, emit a drift digest and keep running. The autonomy trap is resolved by *when*: founder-level calls are made *with the founder in planning* — never auto-invented mid-run, and never a mid-run hard stop.
 
 ---
 
@@ -112,7 +112,7 @@ Task & milestone states: `pending | in-progress | in-review | done | blocked`. N
 - **Reporting** travels up: executor → tech-lead → CEO → founder.
 - **Review** gates every artifact (different persona, PASS/FAIL).
 - **Consultation** resolves ambiguity laterally/upward without guessing.
-- **Escalation** reaches the founder only for direction-changing calls.
+- **Escalation** is front-loaded: direction-changing calls are settled with the founder in `review-and-plan`, never as a mid-run stop. Unforeseen ones are decided-and-flagged (DIRECTION + drift digest), and the founder course-corrects at the next plan.
 
 Every persona's job description names all four: who it reports to, who reviews it, who it consults, what it may decide vs escalate.
 

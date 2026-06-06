@@ -11,7 +11,7 @@
 - **Consults (who, when):** <peer/upward roles + the trigger — e.g. `architect` when a spec's R#/A# is ambiguous; `tech-lead` when a decomposition looks blocked. Lateral/upward only, to resolve ambiguity instead of guessing. See `consultation.md`. Write `—` only if truly none.>
 - **May decide vs Must escalate:**
   - *May decide (judged by outcome):* <calls this role owns autonomously — the test/spec/review verdict is the outcome-harness>
-  - *Must escalate:* <direction-changing calls that reach the founder, via the reporting chain — see `automation.md` / `decision-escalation.md`>
+  - *Must escalate (front-loaded, never a mid-run stop):* <direction-changing calls — settled with the founder in planning, or decided-and-flagged (`DIRECTION` + drift digest) if unforeseen mid-run; the run never blocks. See `automation.md` / `decision-escalation.md`>
 
 ## Mission
 <One sentence: why this role exists in THIS company.>

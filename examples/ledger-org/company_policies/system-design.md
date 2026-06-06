@@ -4,7 +4,7 @@
 >
 > **Distinct from `architecture.md`.** Architecture answers *"is it right?"* — the event-sourcing invariants, the seams, the deterministic byte-identical-replay property (`specs/domain-core.md` A3), the current-state shape. This answers *"can we operate it?"* — the AWS topology, identity, API surface, iOS-client changes, and the staged migration we have to stand up and run. Where this design leans on an invariant (Decimal-only money, Foundation-only core, FactID idempotency, byte-identical replay) it **points to `architecture.md` / `data-model.md` / `specs/`** rather than restating it. Where it needs a *new* invariant (the `FactLogStore` seam, the `revision`/`supersedes` restatement path, the conservative 0% CGT fallback) that is a **consultation back to the Architect**, logged in §10.
 >
-> Version-stamped, scoped to W6, supersedes the W5 design note. Open decisions that are irreversible / external / strategic / cost-incurring are **flagged for the founder** (`decision-escalation.md`) — staged ready-to-flip, never auto-decided.
+> Version-stamped, scoped to W6, supersedes the W5 design note. Open decisions that are irreversible / external / strategic / cost-incurring are **flagged for the founder to settle in `review-and-plan`** (`decision-escalation.md`) — built behind a flag on a signed default so the run proceeds without a mid-run stop, never silently invented.
 
 **Phase:** W6 — Backend Lift ("a lift, not a rebuild": move `LedgerCore` verbatim into AWS Lambda; move storage/secrets/schedule/notify/transport behind the seams; thin API in front). **Path A (single-tenant, unattended)** deploys first as a strict configuration subset of the multi-tenant-capable target.
 **Backing specs:** `specs/backend-lift.md` is the W6 contract — sync (§E R12–R16/A8–A10: scheduled+triggered pull, idempotent ingest), the fact-store seam (§A R1 + §C R7–R8 / A1, A3, A16: `FactLogStore` seam, append-only, FactID idempotency; the byte-identical-replay property `FactStore-seam-preserves-replay` A1), projections/read (§G R19/A12: versioned+digest-stamped rebuild served at any `Scope`), server tax (§B R4–R5 / A2 `server-tax-byte-identical-to-device`: CGT/franking/FX/Div775 byte-identical to the on-device oracle), and the read API (§G R19–R21 / A12–A13: read API contract, identity-scoped). The on-device math it preserves verbatim lives in `specs/domain-core.md` (tax-to-the-cent A1, byte-identical-replay A3). Domain shapes (Fact/FactKind/LotLedgerState/Scope) are the source of truth in `data-model.md`.
@@ -203,7 +203,7 @@ W6 moves Ledger's sync and compute off the single iOS device onto an always-on A
 
 ## 9. Risks & open decisions
 
-> **Risks** = things that could go wrong, with a mitigation/detection. **Open decisions** = forks tagged decide-now (logged) or **FOUNDER** (escalated per `decision-escalation.md`: irreversible / external / strategic / costs money / locks future waves). FOUNDER items are **staged ready-to-flip** so the run is never blocked.
+> **Risks** = things that could go wrong, with a mitigation/detection. **Open decisions** = forks tagged decide-now (logged) or **FOUNDER** (front-loaded into `review-and-plan` per `decision-escalation.md`: irreversible / external / strategic / costs money / locks future waves). FOUNDER items are pre-decided or given a default + tolerance and **built behind a flag** so the run is never blocked; an unforeseen one is decided against its default and flagged `DIRECTION`, never a mid-run stop.
 
 **Risks**
 | risk | likelihood | impact | mitigation / detection |

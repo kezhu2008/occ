@@ -4,7 +4,7 @@
 >
 > **Distinct from `architecture.md`.** Architecture answers *"is it right?"* — invariants the system enforces, seams, the current-state shape. This answers *"can we operate it?"* — the topology, identity, API surface, client changes, and migration we have to stand up and run. Where this design leans on an invariant, **point to `architecture.md`/`specs/`** rather than restating it. Where this design needs a new invariant, that is a **consultation back to the Architect**, logged below.
 >
-> Version-stamped. Scoped to one wave/phase; supersedes the prior wave's design note. Open decisions that are irreversible / external / strategic / cost-incurring are **flagged for the founder** (`decision-escalation.md`) — staged ready-to-flip, never auto-decided.
+> Version-stamped. Scoped to one wave/phase; supersedes the prior wave's design note. Open decisions that are irreversible / external / strategic / cost-incurring are **flagged for the founder to settle in `review-and-plan`** (`decision-escalation.md`) — built behind a flag on a signed default so the run proceeds without a mid-run stop, never silently invented.
 
 **Phase:** <e.g. M4 — server-lift & multi-device sync>
 **Backing specs:** <R#/A# subsystems this phase delivers — links into `specs/`>
@@ -136,7 +136,7 @@
 ---
 
 ## 9. Risks & open decisions
-> Two lists. **Risks** = things that could go wrong, with a mitigation. **Open decisions** = forks not yet settled — each tagged decide-now (logged) or **FOUNDER** (escalated per `decision-escalation.md`: irreversible / external / strategic / costs money / locks future waves). Founder items are **staged ready-to-flip** so the run is never blocked waiting.
+> Two lists. **Risks** = things that could go wrong, with a mitigation. **Open decisions** = forks — each tagged decide-now (logged) or **FOUNDER** (front-loaded into `review-and-plan` per `decision-escalation.md`: irreversible / external / strategic / costs money / locks future waves). FOUNDER items are pre-decided or given a default + tolerance and **built behind a flag** so the run is never blocked waiting; an unforeseen one is decided against its default and flagged `DIRECTION`, never a mid-run stop.
 
 **Risks**
 | risk | likelihood | impact | mitigation / detection |
